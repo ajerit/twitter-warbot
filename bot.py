@@ -7,6 +7,7 @@ import sys
 import re
 from config import BotHelper
 from PIL import Image, ImageDraw, ImageFont
+import logging
 
 
 class Player:
@@ -18,7 +19,7 @@ class Player:
         self.selectprob = selectprob
         self.wins = wins
 
-class CSIBot(BotHelper):
+class Bot(BotHelper):
     def __init__(self):
         BotHelper.__init__(self)
         self.api = self.create_api()
@@ -104,7 +105,7 @@ class CSIBot(BotHelper):
         min_y = 35
         img = Image.new('RGB', (max_x, max_y), color = 'white')# 'rgb(200, 200, 200)')
         draw = ImageDraw.Draw(img)
-        font = ImageFont.truetype('/scadrial/twitter-bot/csibot/arial.ttf', size=12, encoding="unic")
+        font = ImageFont.truetype('arial.ttf', size=12, encoding="unic")
 
         x, y = min_x, min_y
         text_height = draw.textsize('hg')[1] + 15
@@ -128,7 +129,7 @@ class CSIBot(BotHelper):
             draw.text((x, y), name, fill=color, font=font)
             y = y + text_height
 
-        img.save('/scadrial/twitter-bot/csibot/status.png')
+        img.save('status.png')
         print("Imagen generada")
         return img
 
@@ -137,8 +138,8 @@ class CSIBot(BotHelper):
         print("Creando tweet final")
 
         # Upload image with player names and status
-        status_img = open('/scadrial/twitter-bot/csibot/status.png', 'rb')
-        img_id = self.api.media_upload(filename="/scadrial/twitter-bot/csibot/status.png")
+        status_img = open('status.png', 'rb')
+        img_id = self.api.media_upload(filename="status.png")
 
         # Calcular semana del evento
         current_date = self.query_all("SELECT * from gamedate;")
@@ -151,10 +152,10 @@ class CSIBot(BotHelper):
 
         if victim is not None:
             name2 = victim.name.strip()
-            with open('/scadrial/twitter-bot/csibot/temp.txt', 'w') as f:
+            with open('Temp.txt', 'w') as f:
                 f.write(f'{term.capitalize()} Lapso del año {year}.\n\n{name1} HA MATADO a {name2}.\n\nQuedan {self.alive_players} ignacianos.')
         else:
-            with open('/scadrial/twitter-bot/csibot/temp.txt', 'w') as f:
+            with open('Temp.txt', 'w') as f:
                 f.write(f'{term.capitalize()} Lapso del año {year}.\n\nEL ÚLTIMO IGNACIANO ES: {name1}.\n\n¡EN TODO AMAR Y SERVIR!')
 
         if term == "TERCER":
@@ -166,23 +167,22 @@ class CSIBot(BotHelper):
             new_term = "TERCER"
 
         print(f"Twitteando resultados {term} {year} jug1: {name1} ")
-        try:
-            update_t_query = """Update gamedate set year = %s, term = %s where id = %s"""
-            self.cursor.execute(update_t_query, (year, new_term.upper(), id_db))
-            self.conn.commit()
-        except (Exception, psycopg2.Error) as error :
-            print ("Error while connecting to PostgreSQL", error)
-            self.close()
-            sys.exit(1)
+        #try:
+        #    update_t_query = """Update gamedate set year = %s, term = %s where id = %s"""
+        #    self.cursor.execute(update_t_query, (year, new_term.upper(), id_db))
+        #    self.conn.commit()
+        #except (Exception, psycopg2.Error) as error :
+        #    print ("Error while connecting to PostgreSQL", error)
+        #   sys.exit(1)
 
-        with open('/scadrial/twitter-bot/csibot/temp.txt','r') as f:
+        with open('Temp.txt','r') as f:
             self.api.update_status(f.read(), media_ids=[img_id.media_id_string])
 
         print("Tweet enviadooo!")
         print("-----------------------------------------------")
 
 def test_run():
-    bot = CSIBot()
+    bot = Bot()
 
     while not bot.winner:
 
@@ -218,5 +218,5 @@ def main():
     sys.exit(0)
 
 if __name__ == "__main__":
-    main()
-    #test_run()
+    #main()
+    test_run()

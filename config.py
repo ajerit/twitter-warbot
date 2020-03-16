@@ -4,16 +4,18 @@ import logging
 import os
 import sys
 import psycopg2
+import urllib.parse as urlparse
 
 logger = logging.getLogger()
 
 class BotHelper:
     def __init__(self):
-        self.conn = psycopg2.connect(user = "USER",
-                                    password = "PASSWORD",
-                                    host = "HOST",
-                                    port = "PORT",
-                                    database = "DB")
+        # self.conn = psycopg2.connect(user = "USER",
+        #                             password = "PASSWORD",
+        #                             host = "HOST",
+        #                             port = "PORT",
+        #                             database = "DB")
+        self.conn = psycopg2.connect(os.getenv("DATABASE_URL"), sslmode='require')
         self.cursor = self.conn.cursor()
         self.consumer_key = os.getenv("CONSUMER_KEY")
         self.consumer_secret = os.getenv("CONSUMER_SECRET")
