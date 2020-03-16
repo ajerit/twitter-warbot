@@ -202,11 +202,11 @@ def test_run():
 
 def main():
     bot = Bot() # Create Bot
-    #INFECTED = bot.selectPlayer() # Select killer and victim
-    #bot.updateDB(INFECTED) # Update values in DB
+    INFECTED = bot.selectPlayer() # Select killer and victim
+    bot.updateDB(INFECTED) # Update values in DB
     all_players_list = bot.generatePlayerList() # Create list with alive players
     bot.draw_image(all_players_list) # Create image with player names
-    #bot.tweetResults(INFECTED) # Tweet result with image
+    bot.tweetResults(INFECTED) # Tweet result with image
     bot.close() # Close db connections
     sys.exit(0)
 
