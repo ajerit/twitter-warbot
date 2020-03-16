@@ -129,7 +129,9 @@ class Bot(BotHelper):
         status_img = open('status.png', 'rb')
         img_id = self.api.media_upload(filename="status.png")
 
-        # Calcular fecha del evento
+        # Calcular fecha del evento y otros datos
+        real_infected = self.query_all("SELECT * from data WHERE data_name = 'real_infected';")
+
         current_date = date.today()
 
         year = current_date.year
@@ -140,10 +142,10 @@ class Bot(BotHelper):
 
         if not self.winner:
             with open('Temp.txt', 'w') as f:
-                f.write(f'Hoy es {day}/{month}/{year}.\n\nActualmente existen ## infectados en el país.\n\n{infected_name} HA DADO POSITIVO POR CORONAVIRUS.\n\nQuedan {self.alive_players} personas sanas.')
+                f.write(f'Hoy es {day}/{month}/{year}.\n\nActualmente existen {real_infected[0][2]} infectados en el país.\n\n{infected_name} HA DADO POSITIVO POR CORONAVIRUS.\n\nQuedan {self.alive_players} personas sanas.\n\nRecuerden lavarse bien las manos.')
         else:
             with open('Temp.txt', 'w') as f:
-                f.write(f'Hoy es {day}/{month}/{year}.\n\nActualmente existen ## infectados en el país.\n\n¡{infected_name} ES LA ÚLTIMA PERSONA SANA DEL PAÍS, HA CONSEGUIDO LA CURA DEL VIRUS!')
+                f.write(f'Hoy es {day}/{month}/{year}.\n\nActualmente existen {real_infected[0][2]} infectados en el país.\n\n¡{infected_name} ES LA ÚLTIMA PERSONA SANA DEL PAÍS, HA CONSEGUIDO LA CURA DEL VIRUS!')
 
         print(f"Twitteando resultados {infected_name} ")
 
