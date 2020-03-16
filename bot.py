@@ -8,6 +8,7 @@ import re
 from config import BotHelper
 from PIL import Image, ImageDraw, ImageFont
 import logging
+from datetime import date
 
 
 class Player:
@@ -32,8 +33,8 @@ class Bot(BotHelper):
 
         return instance_list
 
-    def selectPlayers(self):
-        print("Seleccionando jugadores")
+    def selectPlayer(self):
+        print("Seleccionando jugador")
         # Get all alive players
         db_player_list = self.query_all("SELECT * FROM players WHERE isalive = true")
         self.player_list = self.create_player_list(db_player_list)
@@ -43,45 +44,32 @@ class Bot(BotHelper):
         if (self.alive_players == 1 ):
             # Exit with winner
             self.winner = True
-            return self.player_list[0], None;
+            return self.player_list[0]
 
         # Choose player based on selectprob by id
-        killer = random.choices(self.player_list, weights=[player.selectprob for player in self.player_list])
-        victim_list = [player for player in self.player_list if player.p_id != killer[0].p_id]
-
-        # Choose victim based on deathprob
-        victim = random.choices(victim_list, weights=[victim.deathprob for victim in victim_list])
+        infected = random.choices(self.player_list, weights=[player.selectprob for player in self.player_list])
 
         # Killer gets more selectprob and less deathprob
-        killer[0].deathprob -= 0
-        killer[0].selectprob += 0
-        killer[0].wins += 1
+        infected[0].deathprob -= 0
+        infected[0].selectprob += 0
+        infected[0].wins += 0
 
         # Victim gets killed
-        victim[0].isalive = False
+        infected[0].isalive = False
 
         self.alive_players -= 1
 
         # Return players in a tuple
-        print(f"Jugadores seleccionados. {killer[0].name} y {victim[0].name}")
-        return killer[0], victim[0];
+        print(f"Jugador infectado. {infected[0].name}")
+        return infected[0]
 
-    def updateDB(self, killer, victim): 
+    def updateDB(self, infected): 
         print("Actualizar BD")
-        # Update Killer probabilities
-        try:
-            update_k_query = """Update players set deathprob = %s, selectprob = %s, wins = %s where id = %s"""
-            self.cursor.execute(update_k_query, (killer.deathprob, killer.selectprob, killer.wins, killer.p_id ))
-            self.conn.commit()
-        except (Exception, psycopg2.Error) as error :
-            print ("Error while connecting to PostgreSQL", error)
-            self.close()
-            sys.exit(1)
 
         # Update victim status
         try:
             update_v_query = """Update players set isalive = %s where id = %s"""
-            self.cursor.execute(update_v_query, (False, victim.p_id ))
+            self.cursor.execute(update_v_query, (False, infected.p_id))
             self.conn.commit()
         except (Exception, psycopg2.Error) as error :
             print ("Error while connecting to PostgreSQL", error)
@@ -133,7 +121,7 @@ class Bot(BotHelper):
         print("Imagen generada")
         return img
 
-    def tweetResults(self, killer, victim):
+    def tweetResults(self, infected):
         # Create a tweet
         print("Creando tweet final")
 
@@ -141,39 +129,23 @@ class Bot(BotHelper):
         status_img = open('status.png', 'rb')
         img_id = self.api.media_upload(filename="status.png")
 
-        # Calcular semana del evento
-        current_date = self.query_all("SELECT * from gamedate;")
+        # Calcular fecha del evento
+        current_date = date.today()
 
-        year = current_date[0][0]
-        term = current_date[0][1]
-        id_db = current_date[0][2]
+        year = current_date.year
+        month = current_date.month
+        day = current_date.day
 
-        name1 = killer.name.strip()
+        infected_name = infected.name.strip()
 
-        if victim is not None:
-            name2 = victim.name.strip()
+        if not self.winner:
             with open('Temp.txt', 'w') as f:
-                f.write(f'{term.capitalize()} Lapso del año {year}.\n\n{name1} HA MATADO a {name2}.\n\nQuedan {self.alive_players} ignacianos.')
+                f.write(f'Hoy es {day}/{month}/{year}.\n\nActualmente existen ## infectados en el país.\n\n{infected_name} HA DADO POSITIVO POR CORONAVIRUS.\n\nQuedan {self.alive_players} personas sanas.')
         else:
             with open('Temp.txt', 'w') as f:
-                f.write(f'{term.capitalize()} Lapso del año {year}.\n\nEL ÚLTIMO IGNACIANO ES: {name1}.\n\n¡EN TODO AMAR Y SERVIR!')
+                f.write(f'Hoy es {day}/{month}/{year}.\n\nActualmente existen ## infectados en el país.\n\n¡{infected_name} ES LA ÚLTIMA PERSONA SANA DEL PAÍS, HA CONSEGUIDO LA CURA DEL VIRUS!')
 
-        if term == "TERCER":
-            new_term = "PRIMER"
-        elif term == "PRIMER":
-            new_term = "SEGUNDO"
-            year = year + 1
-        elif term == "SEGUNDO":
-            new_term = "TERCER"
-
-        print(f"Twitteando resultados {term} {year} jug1: {name1} ")
-        #try:
-        #    update_t_query = """Update gamedate set year = %s, term = %s where id = %s"""
-        #    self.cursor.execute(update_t_query, (year, new_term.upper(), id_db))
-        #    self.conn.commit()
-        #except (Exception, psycopg2.Error) as error :
-        #    print ("Error while connecting to PostgreSQL", error)
-        #   sys.exit(1)
+        print(f"Twitteando resultados {infected_name} ")
 
         with open('Temp.txt','r') as f:
             self.api.update_status(f.read(), media_ids=[img_id.media_id_string])
@@ -186,34 +158,33 @@ def test_run():
 
     while not bot.winner:
 
-        player1, player2 = bot.selectPlayers() # Select players from db and get attributes
+        infected = bot.selectPlayer() # Select players from db and get attributes
         
-        if player2 is None:
+        if bot.winner:
             break
 
-        bot.updateDB(player1, player2)
-        print(f'En esta ronda {player1.name.strip()} HA MATADO A {player2.name.strip()}')
+        bot.updateDB(infected)
+        print(f'En esta ronda {infected.name.strip()} HA SIDO INFECTADO')
         print(f'Quedan: {bot.alive_players}')
-        bot.updateDB(player1, player2)
+        bot.updateDB(infected)
         print("------------------------------------------------------------------------")
         all_players_list = bot.generatePlayerList()
         bot.draw_image(all_players_list)
         time.sleep(3)
 
     print(f'Final del juego: {bot.winner}')
-    winner = player1
+    winner = infected
     print(f'HA GANADO: {winner.name}')
 
-    
     bot.close()
 
 def main():
     bot = Bot() # Create Bot
-    player1, player2 = bot.selectPlayers() # Select killer and victim
-    bot.updateDB(player1, player2) # Update values in DB
+    INFECTED = bot.selectPlayer() # Select killer and victim
+    bot.updateDB(INFECTED) # Update values in DB
     all_players_list = bot.generatePlayerList() # Create list with alive players
     bot.draw_image(all_players_list) # Create image with player names
-    bot.tweetResults(player1, player2) # Tweet result with image
+    bot.tweetResults(INFECTED) # Tweet result with image
     bot.close() # Close db connections
     sys.exit(0)
 
