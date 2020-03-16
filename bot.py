@@ -208,7 +208,7 @@ def test_run():
     bot.close()
 
 def main():
-    bot = CSIBot() # Create Bot
+    bot = Bot() # Create Bot
     player1, player2 = bot.selectPlayers() # Select killer and victim
     bot.updateDB(player1, player2) # Update values in DB
     all_players_list = bot.generatePlayerList() # Create list with alive players
