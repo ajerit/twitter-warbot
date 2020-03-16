@@ -76,10 +76,12 @@ class BotHelper:
         temp = f.readlines()
 
         try:
+            print("conectando a db")
             connection = psycopg2.connect(os.getenv("DATABASE_URL"), sslmode='require')
 
             cursor = connection.cursor()
-            
+
+            print('crear tabla players')
             create_query = """ DROP TABLE IF EXISTS players;
                             CREATE TABLE players (
                             id integer NOT NULL,
@@ -103,7 +105,7 @@ class BotHelper:
             insert_query = """ INSERT INTO players (name) VALUES (%s)"""
 
             cursor.execute(create_query)
-
+            print('carga datos')
             for line in temp:
                 cursor.execute(insert_query, (line,))
                 connection.commit()
