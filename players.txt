@@ -1,19 +1,27 @@
 Adrián Solano
+Akapellah
 Alberto Ravell
 Ale Otero
 Alejandro Hernández
+Alejandro León
 Alex Goncalves
+Alexis Cárdenas
 Alfonso León
 Alicia Machado
 Alonso Moleiro
 Ana Maria Simon
+Andrés Galarraga
 Angel Garcia Banchs
+Angel Lozano
 Anna Vaccarella
 Antonio Ledezma
 Apache
 Aquiles Báez
 Aran de las Casas
 Asier Cazalis
+Astrid Carolina Herrera
+Beto Montenegro
+Big Soto
 Bob Abreu
 Boris Izaguirre
 Boston Rex
@@ -21,6 +29,7 @@ Budu
 Camila Canabal
 Carla Angola
 Carlos Baute
+Carlos Coste
 Carlos Fraga
 Carolina Herrera
 Caterina Valentino
@@ -32,9 +41,11 @@ Chita Sanvicente
 Chuo Torrealba
 Chyno
 Cilia Flores
+Colette Capriles
 Coquito
 Corina Smith
 Daniel Elbittar
+Daniel Pistola
 Daniel Sarcos
 Daniela Alvarado
 Daniela Barranco
@@ -53,29 +64,41 @@ Edgar Ramirez
 Eduardo Rodriguez Giolitti
 Eglantina Zing
 El Conde del Guacharo
+El Gordo de la Bomba
+El Potro Alvarez
 El Puma Rodríguez
 Eladio Larez
 Elba Escobar
+Elisa Vegas
 Elías Pino Iturrieta
 Emilio Lovera
+Enrique Aristeguieta Gramcko
+Erik Del Búfalo
 Erika de la Vega
 Eugenio Martínez
 Fabiana Rosales
 Fabiola Colmenares
 Farmarato
+Fernando Amorebieta
+Fernando Aristeguieta
 Florentino Primera
 Franco de Vita
 Frank Quintero
 Freddy Guevara
 Gabo Ruiz
+Gabriela Spanic
+Gaby Arellano
 Gaby Espino
-Gaby Spanic
 George Harris
 Gilberto Correa
+Gladys Ibarra
+Gladys Rodriguez
 Greivis Vasquez
 Guaco
 Gualberto Ibarreto
 Guillermo Davila
+Gustavo Aguado
+Gustavo Cisneros
 Gustavo Dudamel
 Gustavo Elis
 Hany Kauam
@@ -86,6 +109,7 @@ Henrique Lazo
 Henry D'Arthenay
 Henry Ramos Allup
 Hermes
+Horacio Siciliano
 Huascar Barradas
 Humberto Turinese
 Ibéyise Pacheco
@@ -96,13 +120,17 @@ Irrael
 Ismael Garcia
 Ivan Sominovis
 JR Petare
+Jairam Navas
 Javier Bertucci
+Jean Carlo Simancas
 Jean Mary
+Joanna Hausmann
 John Acquaviva
 Jonathan Moly
 Jose Altuve
 Jose Rafael Guzman
 Josef Martinez
+José Manuel Olivares
 Jousy Chan
 Juan Arango
 Juan Eleazar Figallo
@@ -137,9 +165,11 @@ Lorenzo Mendoza
 Los narcosobrinos
 Lubrio
 Luis Alamo
+Lupita Ferrer
 Luis Carlos Díaz
 Luis Chataing
 Luis Olavarrieta
+Luis Gerónimo Abreu
 Luis Vicente León
 Ly Jonaitis
 Magglio Ordoñez
@@ -149,6 +179,7 @@ Manuel Angel Redondo
 Manuel Rosales
 Manuel Silva
 Marcel Granier
+Marcel Rasquin
 Maria Corina Machado
 Mariam Habach
 Mariangel Ruiz
@@ -161,11 +192,13 @@ Marta Colomina
 María Bolívar
 María Gabriela Isler
 María Gabriela de Faría
+María Isabel Párraga
 Mau y Ricky
 Mayré Martinez
 Meche Celta
 Melanio Escobar
 Melisa Rauseo
+Micro TDH
 Migbelis Castellanos
 Miguel Angel Landa
 Miguel Cabrera
@@ -176,6 +209,7 @@ Mimi Lazo
 Mirla Castellanos
 Nacho
 Nacho Redondo
+Naky Soto
 Nanutria
 Napoleon Bravo
 Neisser
@@ -200,6 +234,7 @@ Pablo Sandoval
 Padre Jose Palmar
 Pastor Maldonado
 Pastor Oviedo
+Patricia Poleo
 Patricia Velásquez
 Patricia Zavala
 Paul Gillman
@@ -215,11 +250,14 @@ Reynaldo Armas
 Ricardo Hausmann
 Ricardo Montaner
 Ricardo del Búfalo
-Richar Linares
+Richard Linares
 Roberto Messuti
+Rocco Pirillo
 Rocío Higuera
 Rodner Figueroa
+Rodrigo Lasarte
 Roman Lozinski
+Román Camacho
 Roque Valero
 Rosita
 Ruben Limardo
@@ -229,6 +267,7 @@ Sascha Fitness
 Sergio Novelli
 Servando Primera
 Sheryl Rubio
+Shirley Varnagy
 Sixto Rein
 Stefanía Fernández
 Sumito Estevez
@@ -241,6 +280,7 @@ Tomás Rincón
 Tonny Boom
 Toto Aguerrevere
 Trino Mora
+Unai Amenabar
 Valentina Quintero
 Vanessa Goncalves
 Vanessa Senior
@@ -250,6 +290,11 @@ Viviana Gibelli
 Vladimir Villegas
 Walter Martinez
 Willy McKey
+Wilmer Valderrama
+Yeilove
 Winston Vallenilla
+Wuilly Arteaga
 Yordano
 Yulimar Rojas
+Alberto Barradas
+Kabeto

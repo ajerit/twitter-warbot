@@ -9,7 +9,7 @@ from config import BotHelper
 from PIL import Image, ImageDraw, ImageFont
 import logging
 from datetime import date
-
+import os
 
 class Player:
     def __init__(self, p_id, name, isalive, deathprob, selectprob, wins):
@@ -130,22 +130,20 @@ class Bot(BotHelper):
         img_id = self.api.media_upload(filename="status.png")
 
         # Calcular fecha del evento y otros datos
-        real_infected = self.query_all("SELECT * from data WHERE data_name = 'real_infected';")
+        #real_infected = self.query_all("SELECT * from data WHERE data_name = 'real_infected';")
 
         current_date = date.today()
-
-        year = current_date.year
-        month = current_date.month
-        day = current_date.day
+        init_date = date(2020, 3, 15)
+        qtn_counter = current_date - init_date
 
         infected_name = infected.name.strip()
 
         if not self.winner:
             with open('Temp.txt', 'w') as f:
-                f.write(f'Hoy es {day}/{month}/{year}.\n\nActualmente existen {real_infected[0][2]} infectados en el país.\n\n{infected_name} HA DADO POSITIVO POR CORONAVIRUS.\n\nQuedan {self.alive_players} personas sanas.\n\nRecuerden lavarse bien las manos.')
+                f.write(f'Día #{qtn_counter.days} de la cuarentena.\n\n{infected_name} HA DADO POSITIVO POR CORONAVIRUS.\n\nQuedan {self.alive_players} personas sanas.\n\nRecuerden lavarse bien las manos. #COVIDー19')
         else:
             with open('Temp.txt', 'w') as f:
-                f.write(f'Hoy es {day}/{month}/{year}.\n\nActualmente existen {real_infected[0][2]} infectados en el país.\n\n¡{infected_name} ES LA ÚLTIMA PERSONA SANA DEL PAÍS, HA CONSEGUIDO LA CURA DEL VIRUS!')
+                f.write(f'Día #{qtn_counter.days} de la cuarentena.\n\n¡{infected_name} ES LA ÚLTIMA PERSONA SANA DEL PAÍS, HA CONSEGUIDO LA CURA DEL VIRUS! #COVIDー19')
 
         print(f"Twitteando resultados {infected_name} ")
 
@@ -154,6 +152,28 @@ class Bot(BotHelper):
 
         print("Tweet enviadooo!")
         print("-----------------------------------------------")
+
+    def info(self):
+        mensajes = [
+            'El pánico se propaga más rápido que el virus, recuerda siempre mantener la calma. #COVIDー19',
+            'Lávate las manos durante 20 segundos con jabón o desinfectante para elimnar cualquier rastro del virus. #COVIDー19',
+            'Evita tocarte los ojos, la nariz y la boca, ya que puedes transferir el virus a tu cuerpo. #COVIDー19',
+            'Al toser o estornudar, cúbrete la boca y la nariz con el codo flexionado. #COVIDー19',
+            'Evita salir de tu casa al menos que sea totalmente necesario, el distanciamiento social reduce la propagación. #COVIDー19',
+            'Mantente informado y sigue las recomendaciones de los profesionales sanitarios y tus autoridades locales. #COVIDー19',
+            'Permanezca en casa si empieza a encontrarse mal, aunque se trate de síntomas leves como cefalea y rinorrea leve, hasta que se recupere. #COVIDー19']
+        msg = random.choice(mensajes)
+
+        print(msg)
+        print('Twitteando mensaje')
+
+        with open('Temp.txt', 'w') as f:
+            f.write(msg)
+
+        #with open('Temp.txt','r') as f:
+            #self.api.update_status(f.read())
+
+        print('Tweet enviado')
 
 def test_run():
     bot = Bot()
@@ -199,3 +219,9 @@ if __name__ == "__main__":
             test_run()
         elif sys.argv[1] == 'prod':
             main()
+        elif sys.argv[1] == 'db':
+            BotHelper.create_db()
+        elif sys.argv[1] == 'info':
+            bot = Bot()
+            bot.info()
+
