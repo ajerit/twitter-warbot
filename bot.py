@@ -210,7 +210,7 @@ def test_run():
 def main():
     bot = CSIBot() # Create Bot
     player1, player2 = bot.selectPlayers() # Select killer and victim
-    #bot.updateDB(player1, player2) # Update values in DB
+    bot.updateDB(player1, player2) # Update values in DB
     all_players_list = bot.generatePlayerList() # Create list with alive players
     bot.draw_image(all_players_list) # Create image with player names
     bot.tweetResults(player1, player2) # Tweet result with image
@@ -218,5 +218,11 @@ def main():
     sys.exit(0)
 
 if __name__ == "__main__":
-    #main()
-    test_run()
+    if len(sys.argv) != 2:
+        print("Error falta argumento de ejecucion")
+        sys.exit(1)
+    else:
+        if sys.argv[1] == 'dev':
+            test_run()
+        elif sys.argv[1] == 'prod':
+            main()
