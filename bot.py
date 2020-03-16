@@ -87,8 +87,8 @@ class Bot(BotHelper):
 
     def draw_image(self, players):
         print("Generando imagen con los nombres")
-        max_x = 1760
-        max_y = 850
+        max_x = 1800
+        max_y = 950
         min_x = 35
         min_y = 35
         img = Image.new('RGB', (max_x, max_y), color = 'white')# 'rgb(200, 200, 200)')
